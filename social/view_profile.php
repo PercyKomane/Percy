@@ -27,7 +27,7 @@ $profile_result = mysqli_query($conn, $sql);
 $profile_data = mysqli_fetch_assoc($profile_result);
 
 // Fetch the profile user's posts
-$sql = "SELECT post_content, created_at FROM posts WHERE user_id = $profile_user_id ORDER BY created_at DESC";
+$sql = "SELECT post_content AS content, post_time AS created_at FROM posts WHERE user_id = $profile_user_id ORDER BY created_at DESC";
 $posts_result = mysqli_query($conn, $sql);
 ?>
 
