@@ -130,3 +130,20 @@ a {
 a:hover {
     color: #000c8a; /* Change color on hover */
 }
+/* -------------------------------------------- */
+
+.message-container {
+    margin-top: 20px;
+}
+
+.message {
+    background: #f1f1f1;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.message strong {
+    display: block;
+    color: #1877f2; /* Link color */
+}
