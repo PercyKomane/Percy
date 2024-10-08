@@ -42,14 +42,19 @@ $result = $conn->query($sql);
         </form>
 
         <div class="timeline-container">
-            <?php while ($post = $result->fetch_assoc()): ?>
-                <div class="post">
-                    <h4><?php echo $post['username']; ?></h4>
-                    <p><?php echo $post['content']; ?></p>
-                    <p><small><?php echo $post['timestamp']; ?></small></p>
-                </div>
-            <?php endwhile; ?>
-        </div>
+        <?php while ($post = $result->fetch_assoc()): ?>
+            <div class="post">
+                <h4>
+                    <a href="profile.php?id=<?php echo $post['user_id']; ?>">
+                        <?php echo htmlspecialchars($post['username']); ?>
+                    </a>
+                </h4>
+                <p><?php echo htmlspecialchars($post['content']); ?></p>
+                <p><small><?php echo htmlspecialchars($post['timestamp']); ?></small></p>
+            </div>
+        <?php endwhile; ?>
+</div>
+
     </div>
 </body>
 </html>

@@ -118,3 +118,15 @@ button:hover {
         height: 120px;
     }
 }
+
+/* -------------------------------------------- */
+
+a {
+    color: #1877f2; /* Link color similar to Facebook */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s; /* Corrected transition time */
+}
+
+a:hover {
+    color: #000c8a; /* Change color on hover */
+}
