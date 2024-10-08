@@ -77,6 +77,11 @@ $user_id = $_SESSION['user_id'];
             flex-wrap: wrap;
         }
 
+        /* Search feature */
+        .search-box {
+            width: 25%;
+        }
+
         /* Sidebar */
         .sidebar {
             width: 25%;
@@ -312,6 +317,7 @@ $user_id = $_SESSION['user_id'];
 
     <!-- Main content -->
     <div class="main-container">
+        <!-- Sidebar -->
         <div class="sidebar">
             <ul>
                 <li><a href="friends.php"><i class="fas fa-user-friends"></i> Friends</a></li>
@@ -321,6 +327,47 @@ $user_id = $_SESSION['user_id'];
             </ul>
         </div>
 
+        <!-- Search Feature -->
+        <div class="search-box">
+            <h3>Search for Users</h3>
+            <form method="POST" action="home.php">
+                <input type="text" name="search_query" placeholder="Enter name or email" required>
+                <input type="submit" value="Search">
+            </form>
+
+            <!-- Display Search Results -->
+            <?php
+            // Handle search functionality
+            $search_results = [];
+
+            if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search_query'])) {
+                $search_query = mysqli_real_escape_string($conn, $_POST['search_query']);
+                
+                // SQL query to search users by name or email
+                $sql_search = "SELECT id, name, email FROM users WHERE email LIKE '%$search_query%' OR name LIKE '%$search_query%'";
+                $result_search = mysqli_query($conn, $sql_search);
+                
+                while ($row_search = mysqli_fetch_assoc($result_search)) {
+                    $search_results[] = $row_search;
+                }
+            }
+
+            if (!empty($search_results)) {
+                echo '<h4>Search Results:</h4>';
+                echo '<ul>';
+                foreach ($search_results as $user) {
+                    echo '<li>';
+                    echo '<strong>' . htmlspecialchars($user['name']) . '</strong> (' . htmlspecialchars($user['email']) . ') ';
+                    echo '<a href="view_profile.php?user_id=' . $user['id'] . '">View Profile</a>';
+                    echo ' | <a href="add_friend.php?friend_id=' . $user['id'] . '">Add Friend</a>';
+                    echo '</li>';
+                }
+                echo '</ul>';
+            }
+            ?>
+        </div>
+
+        <!-- Feed Section -->
         <div class="feed">
             <!-- Post Box -->
             <div class="post-box">
@@ -330,48 +377,47 @@ $user_id = $_SESSION['user_id'];
                 </form>
             </div>
 
+            <!-- Display Posts -->
+            <?php
+            //session_start();
+            include 'db.php';
 
-        <?php
-        // Start session and include database connection
-        //session_start();
-        include 'db.php';
+            // Assuming user is logged in
+            $user_id = $_SESSION['user_id'];
 
-        // Assuming user is logged in
-        $user_id = $_SESSION['user_id'];
+            // Fetch all posts from the logged-in user
+            $sql = "SELECT p.post_content, p.post_time, u.email FROM posts p
+                    JOIN users u ON p.user_id = u.id
+                    WHERE p.user_id = '$user_id'
+                    ORDER BY p.post_time DESC";
+            $result = mysqli_query($conn, $sql);
 
-        // Fetch all posts from the logged-in user
-        $sql = "SELECT p.post_content, p.post_time, u.email FROM posts p
-                JOIN users u ON p.user_id = u.id
-                WHERE p.user_id = '$user_id'
-                ORDER BY p.post_time DESC";
-        $result = mysqli_query($conn, $sql);
-
-        // Display the posts
-        if (mysqli_num_rows($result) > 0) {
-            echo '<div class="posts">';
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo '<div class="post">';
-                echo '<div class="post-header">';
-                echo '<img src="profile.jpg" alt="User Image">';  // Placeholder for user image
-                echo '<h3>' . htmlspecialchars($row['email']) . '</h3>';
+            // Display the posts
+            if (mysqli_num_rows($result) > 0) {
+                echo '<div class="posts">';
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo '<div class="post">';
+                    echo '<div class="post-header">';
+                    echo '<img src="profile.jpg" alt="User Image">';  // Placeholder for user image
+                    echo '<h3>' . htmlspecialchars($row['email']) . '</h3>';
+                    echo '</div>';
+                    echo '<div class="post-content">';
+                    echo '<p>' . htmlspecialchars($row['post_content']) . '</p>';
+                    echo '</div>';
+                    echo '<div class="post-time">';
+                    echo '<small>' . date('F j, Y, g:i a', strtotime($row['post_time'])) . '</small>';
+                    echo '</div>';
+                    echo '</div>';
+                }
                 echo '</div>';
-                echo '<div class="post-content">';
-                echo '<p>' . htmlspecialchars($row['post_content']) . '</p>';
-                echo '</div>';
-                echo '<div class="post-time">';
-                echo '<small>' . date('F j, Y, g:i a', strtotime($row['post_time'])) . '</small>';
-                echo '</div>';
-                echo '</div>';
+            } else {
+                echo "<p>No posts yet.</p>";
             }
-            echo '</div>';
-        } else {
-            echo "<p>No posts yet.</p>";
-        }
-        ?>
-
+            ?>
         </div>
     </div>
 
+    <!-- Footer -->
     <footer>
         <p>&copy; 2024 Richfield. All rights reserved.</p>
     </footer>
