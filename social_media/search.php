@@ -24,6 +24,14 @@ $user_result = $conn->query("SELECT * FROM users WHERE username LIKE '%$query%'"
     <link rel="stylesheet" href="style.css">
     <title>Search Results</title>
 </head>
+
+<nav>
+    <a href="index.php">Home</a>
+    <a href="messages.php">Messages</a>
+    <a href="profile.php?id=<?php echo $_SESSION['user_id']; ?>">My Profile</a>
+    <a href="logout.php">Logout</a>
+</nav>
+
 <body>
     <div class="container">
         <h2>Search Results for "<?php echo htmlspecialchars($query); ?>"</h2>

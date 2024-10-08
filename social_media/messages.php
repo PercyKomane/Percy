@@ -38,6 +38,14 @@ $message_result = $conn->query($sql);
     <link rel="stylesheet" href="style.css">
     <title>Messages</title>
 </head>
+
+<nav>
+    <a href="index.php">Home</a>
+    <a href="messages.php">Messages</a>
+    <a href="profile.php?id=<?php echo $_SESSION['user_id']; ?>">My Profile</a>
+    <a href="logout.php">Logout</a>
+</nav>
+
 <body>
     <div class="container">
         <h2>Messages</h2>

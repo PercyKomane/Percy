@@ -46,6 +46,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profile_picture'])) {
     <link rel="stylesheet" href="style.css">
     <title><?php echo htmlspecialchars($user['username']); ?>'s Profile</title>
 </head>
+
+<nav>
+    <a href="index.php">Home</a>
+    <a href="messages.php">Messages</a>
+    <a href="profile.php?id=<?php echo $_SESSION['user_id']; ?>">My Profile</a>
+    <a href="logout.php">Logout</a>
+</nav>
+
 <body>
     <div class="container">
         <div class="profile-header">
