@@ -35,6 +35,12 @@ $result = $conn->query($sql);
 <body>
     <div class="container">
         <h2>Welcome to Your Timeline</h2>
+
+        <form action="search.php" method="GET">
+            <input type="text" name="query" placeholder="Search users..." required>
+            <button type="submit">Search</button>
+        </form>
+
         
         <form action="" method="POST">
             <input type="text" name="content" placeholder="What's on your mind?" required>
