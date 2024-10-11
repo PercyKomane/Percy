@@ -1,4 +1,3 @@
-<!-- HTML form for forgot password -->
 <form action="" method="POST">
     <h3>Reset Password</h3>
 
